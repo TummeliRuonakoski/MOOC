@@ -1,0 +1,117 @@
+package Verkkokauppa;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+public class Varasto {
+
+
+	Map<String, Integer > hinta = new HashMap<>();
+	Map<String, Integer > saldo = new HashMap<>();
+
+	public Varasto() {
+		hinta = new HashMap<>();
+		saldo = new HashMap<>();
+	}
+
+	public void lisaaTuote(String tuote, int hinta, int saldo) {
+		this.hinta.put(tuote, hinta);
+		this.saldo.put(tuote, saldo);
+
+	}
+
+
+
+
+	public int hinta(String tuote) {
+		for(String nimi : saldo.keySet()) {
+			if(nimi.equals(tuote)) {
+				return hinta.get(nimi);
+			}
+		}
+		return -99;
+
+	}
+
+	public int saldo(String tuote) {
+		for(String nimi : saldo.keySet()) {
+			if(nimi.equals(tuote)) {
+				return saldo.get(nimi);
+			}
+		}
+		return 0;
+	}
+
+	public boolean ota(String tuote) {
+
+		for(String nimi : saldo.keySet()) {
+			if(nimi.equals(tuote)) {
+				if(saldo.get(nimi) > 0) {
+					saldo.put(tuote, saldo.get(nimi)-1);
+					return true;
+				}else {
+					return false;
+				}
+
+			}
+		}
+
+		return false;
+
+	}
+
+	public Set<String> tuotteet(){
+		Set<String> tuotteet = new HashSet<>();
+		for(String nimi : saldo.keySet()) {
+			tuotteet.add(nimi);
+		}
+
+		return tuotteet;
+
+	}
+
+	public static void main(String[] args) {
+
+		Varasto varasto = new Varasto();
+		varasto.lisaaTuote("maito", 3, 10);
+		varasto.lisaaTuote("kahvi", 5, 7);
+
+		System.out.println("hinnat:");
+		System.out.println("maito: " + varasto.hinta("maito"));
+		System.out.println("kahvi: " + varasto.hinta("kahvi"));
+		System.out.println("sokeri: " + varasto.hinta("sokeri"));
+
+		Varasto varasto1 = new Varasto();
+		varasto1.lisaaTuote("kahvi", 5, 1);
+
+		System.out.println("saldot:");
+		System.out.println("kahvi:  " + varasto1.saldo("kahvi"));
+		System.out.println("sokeri: " + varasto1.saldo("sokeri"));
+
+		System.out.println("otetaan kahvi " + varasto1.ota("kahvi"));
+		System.out.println("otetaan kahvi " + varasto1.ota("kahvi"));
+		System.out.println("otetaan sokeri " + varasto1.ota("sokeri"));
+
+		System.out.println("saldot:");
+		System.out.println("kahvi:  " + varasto.saldo("kahvi"));
+		System.out.println("sokeri: " + varasto.saldo("sokeri"));
+
+
+
+		Varasto varasto2 = new Varasto();
+		varasto2.lisaaTuote("maito", 3, 10);
+		varasto2.lisaaTuote("kahvi", 5, 6);
+		varasto2.lisaaTuote("piimä", 2, 20);
+		varasto2.lisaaTuote("jugurtti", 2, 20);
+
+		System.out.println("tuotteet:");
+		varasto2.tuotteet().stream().forEach(t -> System.out.println(t));
+
+
+	}
+
+
+
+}
