@@ -1,0 +1,39 @@
+package Verkkokauppa;
+
+
+public class Ostos {
+
+	String tuote = "";
+	int kpl;
+	int yksikkohinta;
+
+
+	public Ostos(String tuote, int kpl, int yksikkohinta) {
+		this.tuote = tuote;
+		this.kpl = kpl;
+		this.yksikkohinta = yksikkohinta;
+
+	}
+	public int hinta() {
+		int hinta = kpl * yksikkohinta;
+		return hinta;
+	}
+
+	public void kasvataMaaraa() {
+		kpl++;
+
+	}
+
+	public String toString() {
+		return tuote + ": " + kpl;
+
+	}
+	public static void main(String[] args) {
+
+		Ostos ostos = new Ostos("maito", 4, 2);
+		System.out.println("ostoksen joka sisältää 4 maitoa yhteishinta on " + ostos.hinta());
+		System.out.println(ostos);
+		ostos.kasvataMaaraa();
+		System.out.println(ostos);
+	}
+}
