@@ -1,0 +1,60 @@
+package Verkkokauppa;
+
+import java.util.Scanner;
+
+public class Kauppa {
+
+	private Varasto varasto;
+	private Scanner lukija;
+
+	public Kauppa(Varasto varasto, Scanner lukija) {
+		this.varasto = varasto;
+		this.lukija = lukija;
+	}
+
+	public void asioi(String asiakas) {
+		Ostoskori kori = new Ostoskori();
+		System.out.println("Tervetuloa kauppaan " + asiakas);
+		System.out.println("valikoimamme:");
+
+		varasto.tuotteet().stream().forEach(t -> System.out.println(t));
+
+
+		for (String tuote : varasto.tuotteet()) {
+			System.out.println(tuote);
+		}
+
+		while (true) {
+			System.out.print("mitä laitetaan ostoskoriin (pelkkä enter vie kassalle):");
+			String tuote = lukija.nextLine();
+			if (tuote.isEmpty()) {
+				break;
+			}
+			if (varasto.saldo(tuote) > 0) {
+				int hinta = varasto.hinta(tuote);
+				varasto.ota(tuote);
+				kori.lisaa(tuote, hinta);
+
+			}
+			
+		}
+
+		System.out.println("ostoskorissasi on:");
+		kori.tulosta();
+		System.out.println("korin hinta: " + kori.hinta());
+	}
+
+	public static void main(String[] args) {
+
+		Varasto varasto = new Varasto();
+		varasto.lisaaTuote("kahvi", 5, 10);
+		varasto.lisaaTuote("maito", 3, 20);
+		varasto.lisaaTuote("piimä", 2, 55);
+		varasto.lisaaTuote("leipä", 7, 8);
+
+		Kauppa kauppa = new Kauppa(varasto, new Scanner(System.in));
+		kauppa.asioi("Pekka");
+
+	}
+
+}
