@@ -1,0 +1,55 @@
+package Numerotiedustelu;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class Henkilö {
+	
+	String nimi;
+	List<String> puhelinnumero = new ArrayList<>();
+	ArrayList<HashMap<String, String>> osoite = new ArrayList<HashMap<String, String>>();
+	
+	
+	
+	public Henkilö(String nimi) {
+		this.nimi = nimi;
+	}
+	public Henkilö(String nimi, String puhelinnumero) {
+		this.nimi = nimi;
+		this.puhelinnumero.add(puhelinnumero);
+	}
+	
+	public String getNimi() {
+		return this.nimi;
+	}
+	
+	public  List<HashMap<String, String>> palautaOsoite(){
+		return this.osoite;
+		
+	}
+	
+	public List<String> puhelinnumero(){
+		return puhelinnumero;
+	}
+	
+	public void annaNimi(String nimi) {
+		this.nimi = nimi;
+		
+	}
+	
+	public void annaOsoite(String katu, String kaupunki) {
+		HashMap h = new HashMap<String, String>();
+		h.put("katu", katu);
+		h.put("kaupunki", kaupunki);
+		
+		osoite.add(h);
+		
+	}
+	
+	public void annaPuhelinnumerot(String puhelinnumero){
+		this.puhelinnumero.add(puhelinnumero);
+	}
+	
+	
+}
