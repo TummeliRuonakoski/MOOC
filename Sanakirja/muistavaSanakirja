@@ -1,0 +1,108 @@
+package Sanakirja;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+
+public class MuistavaSanakirja {
+
+	HashMap <String, String> sanakirja;
+	List<String> rivit;
+	String tiedosto;
+	String rivi;
+
+	public MuistavaSanakirja(String tiedosto) {
+		sanakirja = new HashMap<>();
+		rivit = new ArrayList<>();
+		this.tiedosto = tiedosto;
+	}
+
+	public void lisaa(String sana, String kaannos) {
+
+		if(!sanakirja.containsKey(sana) && !sanakirja.containsValue(sana)) {
+			sanakirja.put(sana, kaannos);
+		}
+
+	}
+
+	public String kaanna(String sana) {
+
+		String käännä = null;
+		if(sanakirja.isEmpty()) {
+			return null;
+		}
+
+		if(sanakirja.containsKey(sana)) {
+			käännä = sanakirja.get(sana);
+		} else if (sanakirja.containsValue(sana)) {
+			for (String avain : sanakirja.keySet()) {
+				if (sanakirja.get(avain).equals(sana)) {
+					käännä = avain;
+				}
+			}
+		}
+		return käännä;
+	}
+
+	public void poista(String sana) {
+		if(sanakirja.containsKey(sana)) {
+			sanakirja.remove(sana);
+		}else if (sanakirja.containsValue(sana)) {
+			for (String avain : this.sanakirja.keySet()) {
+				if (this.sanakirja.get(avain).equals(sana)) {
+					sanakirja.remove(avain);
+					break;
+				}
+			}
+		}
+	}
+
+	public boolean lataa() {
+		File tiedosto = new File("Tiedostot/sanat.txt");
+		Scanner tiedostonLukija;
+		try {
+			tiedostonLukija = new Scanner(tiedosto);
+			while (tiedostonLukija.hasNextLine()) {
+				String rivi = tiedostonLukija.nextLine();
+				String[] osat = rivi.split(":");   
+				lisaa(osat[0], osat[1]);
+				System.out.println(osat[0]);     
+				System.out.println(osat[1]);    
+
+			} 
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(0);
+			return false;
+		}
+		tiedostonLukija.close();
+		return true;
+	}
+
+	public boolean tallenna() {
+
+		rivi = "";
+		sanakirja.forEach((k,v) -> {
+			rivi += k + ":" + v +"\n" ; 
+			rivit.add(rivi);
+			});
+		try {
+			FileWriter kirjoitus = new FileWriter("Tiedostot/sanat.txt", false);
+			for(String listanRivit : rivit) {
+				kirjoitus.write(listanRivit);
+			}
+			kirjoitus.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+}
