@@ -1,0 +1,73 @@
+package Verkkokauppa;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Ostoskori {
+	
+	private Map<String, Ostos> ostoskori;
+	
+	public Ostoskori() {
+		ostoskori = new HashMap<>();
+	}
+	
+	public void lisaa(String tuote, int hinta) {
+		
+		if(ostoskori.containsKey(tuote)) {
+            for (String nimi : ostoskori.keySet()) {
+                if (nimi.equals(tuote)) {
+                    ostoskori.get(nimi).kasvataMaaraa();
+                }
+            }
+        } else {
+            ostoskori.put(tuote, new Ostos(tuote, 1, hinta));
+        }
+
+	}
+	
+	public int hinta() {
+		int hinta = 0;
+		for (String nimi : ostoskori.keySet()) {
+			hinta = hinta + ostoskori.get(nimi).hinta();
+		}
+		return hinta;
+	}
+	
+	public void tulosta() {
+		for (String nimi : ostoskori.keySet()) {
+            System.out.println(ostoskori.get(nimi).toString());
+        }
+	}
+
+	public static void main(String[] args) {
+		
+		/*Ostoskori kori = new Ostoskori();
+		kori.lisaa("maito", 3);
+		kori.lisaa("piimä", 2);
+		kori.lisaa("juusto", 5);
+		System.out.println("korin hinta: " + kori.hinta());
+		kori.lisaa("tietokone", 899);
+		System.out.println("korin hinta: " + kori.hinta());*/
+		
+		Ostoskori kori = new Ostoskori();
+		kori.lisaa("maito", 3);
+		kori.tulosta();
+		System.out.println("korin hinta: " + kori.hinta() + "\n");
+
+		kori.lisaa("piimä", 2);
+		kori.tulosta();
+		System.out.println("korin hinta: " + kori.hinta() + "\n");
+
+		kori.lisaa("maito", 3);
+		kori.tulosta();
+		System.out.println("korin hinta: " + kori.hinta() + "\n");
+
+		kori.lisaa("maito", 3);
+		kori.tulosta();
+		System.out.println("korin hinta: " + kori.hinta() + "\n");
+		
+	
+
+	}
+
+}
